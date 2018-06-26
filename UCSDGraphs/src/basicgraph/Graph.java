@@ -24,7 +24,7 @@ import util.GraphLoader;
 
 public abstract class Graph {
 
-	private int Vert_num;
+	private int numVertices;
 	private int numEdges;
 	//optional association of String labels to vertices 
 	private Map<Integer,String> vertexLabels;
@@ -33,7 +33,7 @@ public abstract class Graph {
 	 * Create a new empty Graph
 	 */
 	public Graph() {
-		Vert_num = 0;
+		numVertices = 0;
 		numEdges = 0;
 		vertexLabels = null;
 	}
@@ -43,8 +43,8 @@ public abstract class Graph {
 	 * Report size of vertex set
 	 * @return The number of vertices in the graph.
 	 */
-	public int getVert_num() {
-		return Vert_num;
+	public int getNumVertices() {
+		return numVertices;
 	}
 	
 	
@@ -65,8 +65,8 @@ public abstract class Graph {
 	 */
 	public int addVertex() {
 		implementAddVertex();
-		Vert_num ++;
-		return (Vert_num-1);
+		numVertices ++;
+		return (numVertices-1);
 	}
 	
 	/**
@@ -82,7 +82,7 @@ public abstract class Graph {
 	 */
 	public void addEdge(int v , int w) {
 		numEdges ++;
-		if (v < Vert_num && w < Vert_num) {
+		if (v < numVertices && w < numVertices) {
 			implementAddEdge(v , w);			
 		}
 		else {
@@ -123,17 +123,17 @@ public abstract class Graph {
 	 */
 	public List<Integer> degreeSequence() {
 		// XXX: Implement in part 1 of week 2
-		List<Integer> degrees = new ArrayList<>();
+List<Integer> degree_list = new ArrayList<>();
 		
-		int Vert_num = getVert_num();
+		int numVertices = getNumVertices();
 		
-		for(int v = 0; v < Vert_num;++v){
-			degrees.add(getInNeighbors(v).size() + getNeighbors(v).size());
+		for(int v = 0; v < numVertices;++v){
+			degree_list.add(getInNeighbors(v).size() + getNeighbors(v).size());
 		}
 		
-		Collections.sort(degrees, Comparator.reverseOrder());
+		Collections.sort(degree_list, Comparator.reverseOrder());
 		
-		return degrees;
+		return degree_list;
 	}
 	
 	/**
@@ -149,9 +149,9 @@ public abstract class Graph {
 	 * @return A string representation of the graph
 	 */
 	public String toString() {
-		String s = "\nGraph with " + Vert_num + " vertices and " + numEdges + " edges.\n";
+		String s = "\nGraph with " + numVertices + " vertices and " + numEdges + " edges.\n";
 		s += "Degree sequence: " + degreeSequence() + ".\n";
-		if (Vert_num <= 20) s += adjacencyString();
+		if (numVertices <= 20) s += adjacencyString();
 		return s;
 	}
 
@@ -180,7 +180,7 @@ public abstract class Graph {
 	 */
 	public boolean hasVertex(int v)
 	{
-		return v < getVert_num();
+		return v < getNumVertices();
 	}
 	
 	/**
@@ -200,7 +200,7 @@ public abstract class Graph {
 	 * @param The label to be assigned to this vertex.
 	 */
 	public void addLabel(int v, String s) {
-		if (v < getVert_num() && !vertexLabels.containsKey(v)) 
+		if (v < getNumVertices() && !vertexLabels.containsKey(v)) 
 		{
 			vertexLabels.put(v, s);
 		}
@@ -273,7 +273,21 @@ public abstract class Graph {
 		// Test your distance2 code here.
 		System.out.println("Testing distance-two methods on sample graphs...");
 		System.out.println("Goal: implement method using two approaches.");
-
+		
+		GraphAdjMatrix graphFromFileMatrix = new GraphAdjMatrix();
+		GraphLoader.loadRoadMap("data/testdata/simpletest.map", graphFromFileMatrix);
+		
+		System.out.println(graphFromFileMatrix);
+		List<Integer> twoHops = graphFromFileMatrix.getDistance2(0);
+		
+		System.out.println("two hops are : "+twoHops);
+		System.out.println();
+		GraphAdjMatrix graphFromFourNodes = new GraphAdjMatrix();
+		System.out.println("5 Node graph");
+		GraphLoader.loadGraph("data/graders/mod1/fourNodeGraph.txt", graphFromFourNodes);
+		System.out.println(graphFromFourNodes);
+		List<Integer> newTwoHops = graphFromFourNodes.getDistance2(0);
+		System.out.println("two hops are : "+newTwoHops);
 
 		
 	}

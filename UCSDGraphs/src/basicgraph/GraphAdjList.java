@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /** A class that implements a directed graph. 
  * The graph may have self-loops, parallel edges. 
@@ -32,7 +31,8 @@ public class GraphAdjList extends Graph {
 	 * Implement the abstract method for adding a vertex. 
 	 */
 	public void implementAddVertex() {
-		int v = getVert_num();
+		int v = getNumVertices();
+		// System.out.println("Adding vertex "+v);
 		ArrayList<Integer> neighbors = new ArrayList<Integer>();
 		adjListsMap.put(v,  neighbors);
 	}
@@ -94,16 +94,16 @@ public class GraphAdjList extends Graph {
 	 * @param v the index of vertex.
 	 * @return List<Integer> a list of indices of vertices.  
 	 */		
-	// public List<Integer> getdist(int v) {
-		 // XXX: Implement this method in week 2
-		// List<Integer> dist = new ArrayList<>();
+	 public List<Integer> getDistance2(int v) {
 		 
-		 //for( int u : getNeighbors(v)){
-			// dist.addAll(getNeighbors(u));
-		 //}
+		 List<Integer> distance2 = new ArrayList<>();
 		 
-		// return dist;
-	//}	
+		 for( int u : getNeighbors(v)){
+			 distance2.addAll(getNeighbors(u));
+		 }
+		 
+		 return distance2;
+	}
 	
 	/**
 	 * Generate string representation of adjacency list
@@ -111,7 +111,7 @@ public class GraphAdjList extends Graph {
 	 */
 	public String adjacencyString() {
 		String s = "Adjacency list";
-		s += " (size " + getVert_num() + "+" + getNumEdges() + " integers):";
+		s += " (size " + getNumVertices() + "+" + getNumEdges() + " integers):";
 
 		for (int v : adjListsMap.keySet()) {
 			s += "\n\t"+v+": ";
@@ -121,20 +121,5 @@ public class GraphAdjList extends Graph {
 		}
 		return s;
 	}
-
-	@Override
-	public List<Integer> getDistance2(int v) {
-		// TODO Auto-generated method stub
-		List<Integer> distance2 = new ArrayList<>();
-		 
-		 for( int u : getNeighbors(v)){
-			 distance2.addAll(getNeighbors(u));
-		 }
-		 
-		 return distance2;
-	}
-
-
-
-
+		
 }
